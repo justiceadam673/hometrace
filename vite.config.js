@@ -17,7 +17,7 @@ export default defineConfig({
         description:
           "Hometrace is a property tech app helping people find houses or land to rent or buy, and connect with trusted agents.",
         theme_color: "#ffffff",
-        background_color: "#000000",
+        background_color: "#48a0dc",
         display: "standalone",
         start_url: "/",
         icons: [
