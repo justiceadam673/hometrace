@@ -12,12 +12,12 @@ function App() {
           className='text-blue-900 '
         />
         <h1 className=' animate-bounce transition-all duration-1000 text-3xl font-bold text-center'>
-          <span className='text-yellow-400'>hello</span>{" "}
-          <span className='text-orange-500'>fellow</span>{" "}
-          <span className='text-purple-700'>dev</span>,{" "}
-          <span className=' text-pink-600 '>welcome</span>{" "}
-          <span className=' text-cyan-400 '>to</span>{" "}
-          <span className=' text-green-500 '>HOMETRACE</span>
+          <span className='text-yellow-400'>work</span>{" "}
+          <span className='text-orange-500'>has</span>{" "}
+          <span className='text-purple-700'>started</span>,{" "}
+          <span className=' text-pink-600 '>my</span>{" "}
+          <span className=' text-cyan-400 '>fellow</span>{" "}
+          <span className=' text-green-500 '>teammates</span>
           <span className=' text-gray-500 '>!!!!!!</span>
         </h1>
       </main>
