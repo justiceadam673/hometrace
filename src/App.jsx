@@ -1,28 +1,43 @@
 import React from "react";
 import { Icon } from "@iconify/react";
+import AdminDashBoard from "./pages/agents/AdminDashBoard.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./layout.jsx";
+import RecentAgent from "./pages/agents/recentAgent.jsx";
+// import Settings from "./pages/agents/Settings.jsx";
+import Listings from "./pages/agents/ListingAgents.jsx";
+import DashboardAdvert from "./pages/agents/AdminDashBoard.jsx";
+import AdminSignUp from "./pages/agents/AdminUp.jsx";
+import AdminSignIn from "./pages/agents/AdminSignIn.jsx";
 
 function App() {
   return (
-    <>
-      <main className="bg-red-100 text-red-500 flex justify-center items-center flex-col gap-10 w-screen h-screen px-2- py-10  ">
-        <Icon
-          icon={"eos-icons:bubble-loading"}
-          width={200}
-          height={200}
-          className="text-blue-900 "
-        />
-        <h1 className=" animate-bounce transition-all duration-1000 text-3xl font-bold text-center">
-          <span className="text-yellow-400">hello</span>{" "}
-          <span className="text-orange-500">fellow</span>{" "}
-          <span className="text-purple-700">dev</span>,{" "}
-          <span className=" text-pink-600 ">welcome</span>{" "}
-          <span className=" text-cyan-400 ">to</span>{" "}
-          <span className=" text-green-500 ">HOMETRACE</span>
-          <span className=" text-gray-500 ">!!!!!!</span>
-        </h1>
-        <p>hello logoss</p>
-      </main>
-    </>
+    <Routes>
+      <Route path="/" element={<AdminSignIn />} />
+      <Route path="/AdminUp" element={<AdminSignUp />} />
+      <Route path="/AdminSignIn" element={<AdminSignIn />} />
+      <Route path="/AdminDashBoard" element={<AdminDashBoard />} />
+      <Route path="/recentAgent" element={<RecentAgent />} />
+      {/* <Route path="/Settings" element={<Settings />} /> */}
+      <Route path="/ListingAgent" element={<Listings />} />
+      {/* <Route
+        path="/DashBoardAdvert"
+        element={
+          <ProtectedRoute>
+            <AdminDashBoard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/DashBoardProfile"
+        element={
+          <ProtectedRoute>
+            <AdminDashBoard />
+          </ProtectedRoute>
+        }
+      /> */}
+      <Route path="*" element={<AdminSignIn />} />
+    </Routes>
   );
 }
 
