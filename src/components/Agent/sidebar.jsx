@@ -14,7 +14,7 @@ const Sidebar = ({ onClose }) => {
     { to: "/AdminDashBoard", label: "Home", icon: houseIcon },
     { to: "/recentAgent", label: "Activity", icon: activityIcon },
     { to: "/ListingAgent", label: "Listings", icon: HousePlusIcon },
-    { to: "/DashBoardProfile", label: "Order", icon: menuIcon },
+    { to: "/OrderPage", label: "Order", icon: menuIcon },
     { to: "/DashBoardAdvert", label: "Advert", icon: advertIcon },
     { to: "/Settings", label: "Settings", icon: settingIcon },
   ];

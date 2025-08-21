@@ -26,20 +26,20 @@ const NavAgent = ({ setIsSidebarOpen }) => {
           title: "Listings",
           subtitle: "",
         };
-      case "/DashBoardProfile":
+      case "/OrderPage":
         return {
           title: "Orders",
-          subtitle: "View and manage your orders",
+          subtitle: "",
         };
       case "/DashBoardAdvert":
         return {
           title: "Advertisements",
           subtitle: "Manage your advertising campaigns",
         };
-      case "/DashBoardSettings":
+      case "/Settings":
         return {
           title: "Settings",
-          subtitle: "Customize your account preferences",
+          subtitle: "",
         };
       default:
         return {
