@@ -1,10 +1,12 @@
 import React from "react";
 import { Icon } from "@iconify/react";
+import Explore from "./pages/Explore";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
     <>
-      <main className='bg-red-100 text-red-500 flex justify-center items-center flex-col gap-10 w-screen h-screen px-2- py-10  '>
+      {/* <main className='bg-red-100 text-red-500 flex justify-center items-center flex-col gap-10 w-screen h-screen px-2- py-10  '>
         <Icon
           icon={"eos-icons:bubble-loading"}
           width={200}
@@ -20,7 +22,9 @@ function App() {
           <span className=' text-green-500 '>teammates</span>
           <span className=' text-gray-500 '>!!!!!!</span>
         </h1>
-      </main>
+      </main> */}
+      {/* <Explore /> */}
+      <LandingPage />
     </>
   );
 }
