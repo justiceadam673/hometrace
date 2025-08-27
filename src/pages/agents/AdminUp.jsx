@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import background from "../../assets/agent/herobg.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 const AdminSignUp = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const AdminSignUp = () => {
     confirmPassword: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -94,11 +97,15 @@ const AdminSignUp = () => {
       // In a real app, this would be an API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Store auth state (in a real app, store a token)
-      localStorage.setItem("isAuthenticated", "true");
+      // Store user data
+      const userData = {
+        fullName: formData.fullName,
+        email: formData.email,
+      };
+      localStorage.setItem("userData", JSON.stringify(userData));
 
-      // Navigate to dashboard
-      navigate("/AdminDashBoard");
+      // Navigate to verification page
+      navigate("/verification");
     } catch (err) {
       setError(err.message || "Something went wrong");
       setTimeout(() => setError(""), 3000);
@@ -108,94 +115,122 @@ const AdminSignUp = () => {
   };
 
   return (
-    <section
-      className="h-screen bg-cover bg-center bg-no-repeat flex flex-col md:p-8 p-0"
-      style={{ backgroundImage: `url(${background})` }}
-    >
-      {/* Mobile Top Image */}
-      <img
-        src={background}
-        alt=""
-        className="md:hidden w-full h-[30%] object-cover block"
-      />
+    <div className="h-screen flex flex-col md:flex-row max-h-fit">
+      {/* Image Section - 30% on mobile, 50% on desktop */}
+      <div className="h-[30vh] md:h-screen md:w-1/2">
+        <img
+          src={background}
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-      {/* Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="
-          w-full min-h-[70%] bg-white
-          flex flex-col justify-center items-center
-          px-4 gap-6
-          rounded-tl-[24px] rounded-tr-[24px]
-          sm:gap-8 sm:rounded-[24px] sm:px-8
-          max:sm:w-full md:w-1/2 md:ml-auto md:h-[92vh]
-        "
-      >
-        <h2 className="text-2xl font-semibold">Admin Sign Up</h2>
+      {/* Form Section - 70% on mobile, 50% on desktop */}
+      <div className="flex md:w-1/2 justify-center items-center bg-white p-4 w-full ">
+        <div className="w-full items-center justify-center flex flex-col">
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-center">
+              {error}
+            </div>
+          )}
 
-        {/* Error Message */}
-        {error && (
-          <p className="text-white text-sm md:text-[1rem] p-4 fixed mb-175 md:mt-25 lg:mt-30 bg-[#973131] rounded-[12px]">
-            {error}
-          </p>
-        )}
+          <form onSubmit={handleSubmit} className="space-y-8 max-w-xl w-full">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-2xl font-semibold text-center flex flex-col text-[#371B83]">
+                Agent Sign Up{" "}
+              </h2>
+              <p className="opacity-65 text-sm text-black text-center">
+                Kindly enter your information to create your account
+              </p>
+            </div>
 
-        {/* Input Fields */}
-        <div className="flex flex-col w-[90%] md:w-[70%] gap-5">
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Full name"
-            value={formData.fullName}
-            onChange={handleChange}
-            className="p-2 md:p-3 border border-gray-400 rounded-md outline-none"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="email@gmail.com"
-            value={formData.email}
-            onChange={handleChange}
-            className="p-3 md:p-3 border border-gray-400 rounded-md outline-none"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="p-3 md:p-3 border border-gray-400 rounded-md outline-none"
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className="p-3 md:p-3 border border-gray-400 rounded-md outline-none"
-          />
+            <div className="flex flex-col gap-4 w-full">
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Full name"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 rounded-lg"
+              />
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="email@gmail.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 rounded-lg "
+              />
+
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  placeholder="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 pr-10 rounded-lg"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <Eye className="h-5 w-5 text-gray-500" />
+                  )}
+                </button>
+              </div>
+
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 pr-10 rounded-lg"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <Eye className="h-5 w-5 text-gray-500" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="text-center flex flex-col gap-2">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#2C1669] text-white py-3 hover:bg-[#1D0F4A] disabled:opacity-50 rounded-2xl md:rounded-[20px]"
+              >
+                {loading ? "Signing Up..." : "Sign Up"}
+              </button>
+              <p className="text-gray-600">
+                Already have an account?{" "}
+                <Link to="/AdminSignIn" className="text-[#2C1669] underline">
+                  Sign In
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
-
-        {/* Button & Link */}
-        <div className="flex flex-col items-center w-[90%] md:w-[70%] gap-4">
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full p-3 rounded-full font-medium text-lg text-white ${
-              loading ? "bg-gray-400" : "bg-[#2C1669] hover:bg-[#1e0e4f]"
-            }`}
-          >
-            {loading ? "Signing Up..." : "Sign Up"}
-          </button>
-          <div className="flex gap-0.5 text-sm">
-            <p>Already have an account?</p>
-            <Link to="/AdminSignIn" className="text-[#2C1669] font-semibold">
-              Sign In
-            </Link>
-          </div>
-        </div>
-      </form>
-    </section>
+      </div>
+    </div>
   );
 };
 

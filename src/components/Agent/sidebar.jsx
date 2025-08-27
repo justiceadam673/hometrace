@@ -1,22 +1,25 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import houseIcon from "../../assets/agent/Component 10/iconamoon_home.svg";
-import settingIcon from "../../assets/agent/Component 10/solar_settings-linear.svg";
-import activityIcon from "../../assets/agent/Component 10/mdi_timeline-clock-outline.svg";
-import advertIcon from "../../assets/agent/Component 10/icons8_advertising.svg";
-import menuIcon from "../../assets/agent/majesticons_menu.png";
-import HousePlusIcon from "../../assets/agent/material-symbols_add-home.png";
+
+import {
+  Home,
+  ClockIcon,
+  HousePlusIcon,
+  MegaphoneIcon,
+  SpeakerIcon,
+  Settings,
+} from "lucide-react";
 
 const Sidebar = ({ onClose }) => {
   const location = useLocation();
 
   const navLinks = [
-    { to: "/AdminDashBoard", label: "Home", icon: houseIcon },
-    { to: "/recentAgent", label: "Activity", icon: activityIcon },
+    { to: "/AdminDashBoard", label: "Home", icon: Home },
+    { to: "/recentAgent", label: "Activity", icon: ClockIcon },
     { to: "/ListingAgent", label: "Listings", icon: HousePlusIcon },
-    { to: "/OrderPage", label: "Order", icon: menuIcon },
-    { to: "/DashBoardAdvert", label: "Advert", icon: advertIcon },
-    { to: "/Settings", label: "Settings", icon: settingIcon },
+    { to: "/OrderPage", label: "Order", icon: SpeakerIcon },
+    { to: "/DashBoardAdvert", label: "Advert", icon: MegaphoneIcon },
+    { to: "/Settings", label: "Settings", icon: Settings },
   ];
 
   return (
@@ -79,11 +82,11 @@ const Sidebar = ({ onClose }) => {
               hover:opacity-90 hover:border-r-2 hover:border-[#2C1669]
               transition-all hover:bg-[#c8bee4] hover:text-[#2C1669]`}
           >
-            <img
-              src={icon}
-              alt={`${label} icon`}
-              className={`${isActive ? "fill-[#2C1669]" : ""} w-5 h-5`}
-            />
+            {React.createElement(icon, {
+              className: `w-5 h-5 ${
+                isActive ? "stroke-[#2C1669]" : "stroke-gray-500"
+              }`,
+            })}
             <span
               className={`font-semibold ${
                 isActive ? "text-[#2C1669]" : "text-gray-500"

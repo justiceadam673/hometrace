@@ -16,6 +16,19 @@ const Listings = () => {
   const [showHouseForm, setShowHouseForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [editingListing, setEditingListing] = useState(null);
+  const [bookmarkedListings, setBookmarkedListings] = useState(new Set());
+
+  const toggleBookmark = (listingId) => {
+    setBookmarkedListings((prev) => {
+      const newBookmarks = new Set(prev);
+      if (newBookmarks.has(listingId)) {
+        newBookmarks.delete(listingId);
+      } else {
+        newBookmarks.add(listingId);
+      }
+      return newBookmarks;
+    });
+  };
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
@@ -209,17 +222,45 @@ const Listings = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {listings.map((listing) => (
                 <div
                   key={listing.id}
                   className="bg-white rounded-lg shadow-md overflow-hidden mx-auto"
                 >
-                  <img
-                    src={listing.image}
-                    alt={listing.title}
-                    className="w-full h-[197px] object-cover rounded-t-md"
-                  />
+                  <div className="relative">
+                    <img
+                      src={listing.image}
+                      alt={listing.title}
+                      className="w-full h-[197px] object-cover rounded-t-md"
+                    />
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleBookmark(listing.id);
+                      }}
+                      className="absolute top-2 right-2 focus:outline-none bg-white rounded-full p-1.5 shadow-md"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill={
+                          bookmarkedListings.has(listing.id)
+                            ? "#2C1669"
+                            : "none"
+                        }
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="#2C1669"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                   <div className="p-3">
                     <div className="flex flex-col gap-.5 justify-between items-start mb-2">
                       <div className="flex justify-between w-full">

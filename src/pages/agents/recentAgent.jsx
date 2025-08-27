@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import NavAgent from "../../components/Agent/navAgents.jsx";
 import { useState } from "react";
 import Sidebar from "../../components/Agent/sidebar.jsx";
-import { UserRoundPlusIcon } from "lucide-react";
-// import listIcon from "../Agent/eos-icons_role-binding-outlined.svg";
+import { UserRoundPlusIcon, HousePlusIcon } from "lucide-react";
+import recentIcon from "../../assets/agent/iconsax-profile-add.png";
 
 const RecentAgent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -31,18 +31,18 @@ const RecentAgent = () => {
     },
   ];
 
-  const getStatusColor = (status) => {
+  const getStatusIcon = (status) => {
     switch (status) {
       case "viewed":
-        return "text-blue-600";
+        return (
+          <img src={recentIcon} alt="" className="w-6 h-6 text-[#2C1669]" />
+        );
       case "confirmed":
-        return "text-green-600";
+        return <HousePlusIcon className="w-6 h-6 text-[#2C1669]" />;
       case "pending":
-        return "text-orange-500";
       case "inquiry":
-        return "text-purple-600";
       default:
-        return "text-gray-600";
+        return <UserRoundPlusIcon className="w-6 h-6 text-[#2C1669]" />;
     }
   };
 
@@ -89,11 +89,7 @@ const RecentAgent = () => {
                   className="flex items-start justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   <div className="flex items-start gap-3 w-full">
-                    <UserRoundPlusIcon
-                      className={`${getStatusColor(
-                        activity.status
-                      )} text-2xl flex-shrink-0`}
-                    />
+                    {getStatusIcon(activity.status)}
                     <div className="flex justify-between w-full">
                       <span className="text-sm text-gray-700">
                         {activity.message}
