@@ -1,13 +1,46 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import searchIcon from "../../assets/agent/uil_search.png";
 import profileIcon from "../../assets/agent/iconamoon_profile-fill.png";
 import arrowIcon from "../../assets/agent/weui_arrow-outlined.png";
 import menuIcon from "../../assets/agent/majesticons_menu.png";
 import homtraceLogo from "../../assets/agent/HOMEtrace logo S1 1.svg";
+import { useUser } from "../../context/UserContext";
 
 const NavAgent = ({ setIsSidebarOpen }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, profilePic, updateProfilePic, logout } = useUser();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/AdminSignIn");
+  };
+
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        updateProfilePic(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const getHeaderContent = () => {
     switch (location.pathname) {
@@ -69,14 +102,66 @@ const NavAgent = ({ setIsSidebarOpen }) => {
           />
         </div>
       </ul>
-      <ul className="hidden md:block lg:block">
-        <div className="flex items-center gap-2">
-          <span className="p-1 bg-[#2C1669] rounded-full flex items-center justify-center">
-            <img src={profileIcon} alt="" className="w-6 h-6 object-cover" />
+      <ul className="hidden md:block lg:block relative" ref={dropdownRef}>
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        >
+          <span className="p-1 bg-[#2C1669] rounded-full flex items-center justify-center w-8 h-8">
+            {profilePic ? (
+              <img
+                src={profilePic}
+                alt=""
+                className="w-6 h-6 object-cover rounded-full"
+              />
+            ) : (
+              <img src={profileIcon} alt="" className="w-6 h-6 object-cover" />
+            )}
           </span>
-          <p>Richard Ale</p>
-          <img src={arrowIcon} alt="" />
+          <p>{user?.fullName || "User"}</p>
+          <img
+            src={arrowIcon}
+            alt=""
+            className={`transform transition-transform ${
+              isDropdownOpen ? "rotate-180" : ""
+            }`}
+          />
         </div>
+
+        {/* Dropdown Menu */}
+        {isDropdownOpen && (
+          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
+            <div className="py-1">
+              <button
+                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                Change Profile Picture
+              </button>
+              <button
+                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={() => navigate("/Settings")}
+              >
+                Settings
+              </button>
+              <button
+                className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Hidden file input */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleProfilePicChange}
+          className="hidden"
+          accept="image/*"
+        />
       </ul>
       <ul className="md:hidden lg:hidden">
         <p className="text-[22px] font-semibold">{headerContent.title}</p>

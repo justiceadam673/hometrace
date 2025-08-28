@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import NavAgent from "../../components/Agent/navAgents.jsx";
 import Sidebar from "../../components/Agent/sidebar.jsx";
-import { Search, ChevronLeft, CheckCircle2 } from "lucide-react";
+import {
+  Search,
+  ChevronLeft,
+  CheckCircle2,
+  MapPin,
+  Verified,
+  Bed,
+  House,
+} from "lucide-react";
 import duplexImage from "../../assets/agent/duplex.jpg";
 
 const initialOrders = [
@@ -117,6 +125,8 @@ function OrderPage() {
     setSelectedOrder((prev) => ({ ...prev, status: newStatus }));
   };
 
+  const handleNextUpdate = () => {};
+
   const filteredOrders = orders.filter(
     (order) =>
       order.product.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -205,16 +215,16 @@ function OrderPage() {
                     <th className="p-4 text-left font-semibold text-sm">
                       Date
                     </th>
-                    <th className="p-4 text-left font-semibold text-sm md:table-cell hidden">
+                    <th className="p-4 text-left font-semibold text-sm ">
                       Amount
                     </th>
-                    <th className="p-4 text-left font-semibold text-sm md:table-cell hidden">
+                    <th className="p-4 text-left font-semibold text-sm">
                       Payment
                     </th>
-                    <th className="p-4 text-left font-semibold text-sm md:table-cell hidden">
+                    <th className="p-4 text-left font-semibold text-sm ">
                       Status
                     </th>
-                    <th className="p-4 text-left font-semibold text-sm md:table-cell hidden">
+                    <th className="p-4 text-left font-semibold text-sm ">
                       Action
                     </th>
                   </tr>
@@ -241,13 +251,9 @@ function OrderPage() {
                       </td>
                       <td className="p-4 text-sm">{order.customer.name}</td>
                       <td className="p-4 text-sm">{order.date}</td>
-                      <td className="p-4 text-sm md:table-cell hidden">
-                        {order.amount}
-                      </td>
-                      <td className="p-4 text-sm md:table-cell hidden">
-                        {order.paymentType}
-                      </td>
-                      <td className="p-4 md:table-cell hidden">
+                      <td className="p-4 text-sm ">{order.amount}</td>
+                      <td className="p-4 text-sm ">{order.paymentType}</td>
+                      <td className="p-4 ">
                         <span
                           className="text-sm px-3 py-1 rounded-xl font-medium"
                           style={{
@@ -258,7 +264,7 @@ function OrderPage() {
                           {order.status}
                         </span>
                       </td>
-                      <td className="p-4 md:table-cell hidden">
+                      <td className="p-4 ">
                         <button
                           onClick={() => {
                             setSelectedOrder(order);
@@ -275,7 +281,7 @@ function OrderPage() {
               </table>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => {
@@ -293,114 +299,80 @@ function OrderPage() {
                 {/* Left Section - Image and Details */}
                 <div className="lg:col-span-2 space-y-6">
                   {/* Image Section */}
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-gray-50 rounded-lg">
                     <img
                       src={selectedOrder.image}
                       alt={selectedOrder.product}
-                      className="w-full h-[400px] object-cover rounded-lg"
+                      className="w-full h-[60vh] object-cover rounded-lg"
                     />
                   </div>
 
-                  <div className="flex flex-row gap-6">
+                  <div className="flex flex-col md:flex-row gap-4 md:gap-0">
                     {/* Property Details Section */}
-                    <div className="bg-gray-50 rounded-lg p-6">
-                      <h4 className="text-lg font-semibold mb-4">
-                        Property Details
-                      </h4>
-                      <div className="space-y-4">
-                        <h3 className="text-xl font-semibold">
-                          {selectedOrder.product}
-                        </h3>
-                        <p className="text-gray-600">
-                          {selectedOrder.details.description}
-                        </p>
+                    <div className=" w-full md:w-[70%]">
+                      <div className="space-y-3.5">
+                        <span className="flex ">
+                          <h3 className="text-xl font-semibold">
+                            {selectedOrder.product}
+                          </h3>
+                          <Verified
+                            className="fill-blue-500 text-white"
+                            size={30}
+                          />
+                        </span>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-2">
+                            <MapPin size={16} className="opacity-65" />
+                            <p className="opacity-65 text-sm">
+                              {selectedOrder.details.location}
+                            </p>
+                          </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                          <div className="bg-white p-4 rounded-lg">
-                            <p className="text-sm text-gray-500">Bedrooms</p>
-                            <p className="font-medium">
-                              {selectedOrder.details.bedrooms}
-                            </p>
-                          </div>
-                          <div className="bg-white p-4 rounded-lg">
-                            <p className="text-sm text-gray-500">Bathrooms</p>
-                            <p className="font-medium">
-                              {selectedOrder.details.bathrooms}
-                            </p>
-                          </div>
-                          <div className="bg-white p-4 rounded-lg">
-                            <p className="text-sm text-gray-500">Size</p>
-                            <p className="font-medium">
-                              {selectedOrder.details.size}
-                            </p>
-                          </div>
-                          <div className="bg-white p-4 rounded-lg">
-                            <p className="text-sm text-gray-500">Year Built</p>
-                            <p className="font-medium">
-                              {selectedOrder.details.yearBuilt}
-                            </p>
+                          <div className="flex gap-2">
+                            <div className="flex items-center gap-2">
+                              <Bed size={16} className="opacity-65" />
+                              <span>
+                                <p className="text-sm opacity-65">
+                                  {selectedOrder.details.bedrooms} Bedrooms
+                                </p>
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <House size={16} className="opacity-65" />
+                              <span>
+                                <p className="text-sm opacity-65">
+                                  {selectedOrder.details.bathrooms} Bathrooms
+                                </p>
+                              </span>
+                            </div>
                           </div>
                         </div>
 
-                        <div className="mt-6">
-                          <p className="text-sm text-gray-500 mb-2">
-                            Amenities
+                        <div className="">
+                          <p className="opacity-65">
+                            {selectedOrder.details.description}
                           </p>
-                          <div className="flex flex-wrap gap-2">
-                            {selectedOrder.details.amenities.map(
-                              (amenity, index) => (
-                                <span
-                                  key={index}
-                                  className="px-3 py-1 bg-white rounded-full text-sm border border-gray-200"
-                                >
-                                  {amenity}
-                                </span>
-                              )
-                            )}
-                          </div>
+                        </div>
+                        <div className="flex flex-col gap-1.5 p-5 bg-[#EBE8F3] w-[80%] rounded-lg">
+                          <p className="text-2xl font-semibold">Build Cost</p>
+                          <p className="text-3xl font-bold">
+                            {selectedOrder.amount}
+                          </p>
                         </div>
                       </div>
                     </div>
 
                     {/* Customer Section */}
-                    <div className="bg-gray-50 p-6 rounded-lg">
-                      <h4 className="text-lg font-semibold mb-4">
-                        Customer Details
-                      </h4>
-                      <div className="bg-white p-4 rounded-lg space-y-3">
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-600 font-medium w-1/2">
-                            Name
-                          </span>
-                          <span className="font-semibold text-gray-900 w-1/2 text-right">
-                            {selectedOrder.customer.name}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-600 font-medium w-1/2">
-                            Email
-                          </span>
-                          <span className="font-semibold text-gray-900 w-1/2 text-right">
-                            {selectedOrder.customer.email}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-600 font-medium w-1/2">
-                            Phone
-                          </span>
-                          <span className="font-semibold text-gray-900 w-1/2 text-right">
-                            {selectedOrder.customer.phone}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-600 font-medium w-1/2">
-                            Address
-                          </span>
-                          <span className="font-semibold text-gray-900 w-1/2 text-right">
-                            {selectedOrder.customer.address}
-                          </span>
-                        </div>
-                      </div>
+                    <div className="bg-[#fffff] px-4  py-2 rounded-lg md:w-[30%] shadow-sm flex  flex-col items-center justify-center gap-5 w-full">
+                      <img
+                        src={duplexImage}
+                        alt=""
+                        className="w-[130px] h-[130px] rounded-full object-cover "
+                      />
+                      <p className="text-lg font-semibold">Richard Doe</p>
+                      <button className="w-full bg-[#2C1669] text-white py-3 rounded-2xl md:rounded-lg font-bold">
+                        Contact Client
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -485,8 +457,6 @@ function OrderPage() {
                         <span
                           className="px-3 py-1 rounded-full text-sm font-medium w-1/2 text-right"
                           style={{
-                            backgroundColor:
-                              statusColors[selectedOrder.status].bg,
                             color: statusColors[selectedOrder.status].text,
                           }}
                         >
@@ -515,28 +485,36 @@ function OrderPage() {
                   </div>
 
                   {/* Action Buttons */}
-                  {selectedOrder.status === "Process" && (
-                    <div className="flex flex-col gap-4 mt-8">
-                      <button
-                        onClick={() =>
-                          handleStatusUpdate(selectedOrder.id, "Completed")
-                        }
-                        className="w-full bg-[#2C1669] text-white px-4 py-3 rounded-lg"
-                      >
-                        Confirm Purchase
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleStatusUpdate(selectedOrder.id, "Failed")
-                        }
-                        className="w-full bg-white text-[#A60000] px-4 py-3 rounded-lg border-[#9E0000] border-2"
-                      >
-                        Decline
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
+              {selectedOrder.status === "Process" && (
+                <div className="flex flex-col gap-4 mt-8">
+                  <button
+                    onClick={() =>
+                      handleStatusUpdate(selectedOrder.id, "Completed")
+                    }
+                    className="w-full bg-[#2C1669] text-white px-4 py-3 rounded-lg"
+                  >
+                    Confirm Purchase
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleStatusUpdate(selectedOrder.id, "Failed")
+                    }
+                    className="w-full bg-white text-[#A60000] px-4 py-3 rounded-lg border-[#9E0000] border-2"
+                  >
+                    Decline
+                  </button>
+                </div>
+              )}
+
+              {selectedOrder.status === "Completed" && (
+                <div className="flex flex-col gap-4 mt-8">
+                  <button className="w-full bg-[#2C1669] text-white px-4 py-3 rounded-lg">
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
