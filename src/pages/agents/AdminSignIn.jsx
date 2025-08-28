@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import background from "../../assets/agent/herobg.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 const AdminSignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -60,78 +62,91 @@ const AdminSignIn = () => {
   };
 
   return (
-    <section
-      className="h-screen bg-cover bg-center bg-no-repeat flex flex-col md:p-8 p-0"
-      style={{ backgroundImage: `url(${background})` }}
-    >
-      {/* Mobile Top Image */}
-      <img
-        src={background}
-        alt=""
-        className="md:hidden w-full h-[30%] object-cover block"
-      />
+    <div className="h-screen flex flex-col md:flex-row max-h-fit">
+      {/* Image Section - 30% on mobile, 50% on desktop */}
+      <div className="h-[30vh] md:h-screen md:w-1/2">
+        <img
+          src={background}
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-      {/* Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="
-          w-full
-          min-h-[70%]
-          bg-white
-          flex flex-col justify-center items-center
-          px-4 gap-6
-          rounded-tl-[24px] rounded-tr-[24px]
-          sm:gap-8
-          sm:rounded-[24px]
-          sm:px-8
-          max:sm:w-full
-          md:w-1/2 md:ml-auto md:h-[92vh]
-        "
-      >
-        <h2 className="text-2xl font-semibold">Admin Sign In</h2>
+      {/* Form Section - 70% on mobile, 50% on desktop */}
+      <div className="flex md:w-1/2  bg-white p-4 w-full justify-center items-center">
+        <div className="w-full items-center justify-center flex flex-col">
+          <form onSubmit={handleSubmit} className="space-y-6 max-w-xl w-full">
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-center">
+                {error}
+              </div>
+            )}
+            <h2 className="text-2xl font-semibold text-center text-[#371B83]">
+              {" "}
+              Sign In
+            </h2>
 
-        {error && (
-          <p className="text-white text-sm md:text-[1rem] p-4 fixed mb-175 md:mt-25 lg:mt-30 bg-[#973131] rounded-[12px]">
-            {error}
-          </p>
-        )}
+            {/* Input Fields */}
+            <div className="flex flex-col gap-3">
+              <input
+                type="email"
+                id="email"
+                placeholder="email@gmail.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-50"
+              />
 
-        {/* Input Fields */}
-        <div className="flex flex-col w-[90%] md:w-[70%] gap-5">
-          <input
-            type="email"
-            placeholder="email@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="p-3 border border-gray-400 rounded-md outline-none"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="p-3 border border-gray-400 rounded-md outline-none"
-          />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-50 pr-10"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <Eye className="h-5 w-5 text-gray-500" />
+                  )}
+                </button>
+              </div>
+              <div className="text-right ">
+                <Link
+                  to="/forgot-password"
+                  className="text-[#2C1669] text-sm underline"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+            </div>
+
+            <div className="text-center flex flex-col gap-4">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#2C1669] text-white py-3 hover:bg-[#1D0F4A] disabled:opacity-50 rounded-3xl md:rounded-2xl"
+              >
+                {loading ? "Signing in..." : "Sign In"}
+              </button>
+              <p className="text-gray-600">
+                Don't have an account?{" "}
+                <Link to="/AdminUp" className="text-[#2C1669] hover:underline">
+                  Sign Up
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
-
-        {/* Button & Link */}
-        <div className="flex flex-col items-center w-[90%] md:w-[70%] gap-4">
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full p-3 rounded-full bg-[#2C1669] text-white font-medium text-lg disabled:opacity-50"
-          >
-            {loading ? "Signing in..." : "Sign In"}
-          </button>
-          <div className="flex gap-0.5 text-sm">
-            <p>Don't have an account?</p>
-            <Link to="/AdminUp" className="text-blue-500 hover:underline">
-              Sign Up
-            </Link>
-          </div>
-        </div>
-      </form>
-    </section>
+      </div>
+    </div>
   );
 };
 
