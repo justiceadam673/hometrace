@@ -3,9 +3,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* * {
-  outline: 1px solid red;
-} */
+* {
+  font-family: Poppins, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
