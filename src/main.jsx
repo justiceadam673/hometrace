@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
 import "./index.css";
-import App from "./App.jsx";
+import { RouterProvider } from "react-router-dom";
 import { registerSW } from "virtual:pwa-register";
+import router from "./App"; // 👈 we'll export router from App.jsx
 
 registerSW({
   onNeedRefresh() {
@@ -18,8 +18,6 @@ registerSW({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
