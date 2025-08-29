@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { registerSW } from "virtual:pwa-register";
-import router from "./App"; // 👈 we'll export router from App.jsx
+import { router, AppProviders } from "./App";
 
 registerSW({
   onNeedRefresh() {
@@ -18,6 +18,8 @@ registerSW({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AppProviders>
+      <RouterProvider router={router} />
+    </AppProviders>
   </React.StrictMode>
 );
