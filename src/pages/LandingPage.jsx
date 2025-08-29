@@ -6,6 +6,7 @@ import { HashLink } from "react-router-hash-link";
 const LandingPage = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [overLay, setOverLay] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +22,9 @@ const LandingPage = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+  function handleOverLay() {
+    setOverLay(!overLay);
+  }
 
   return (
     <div className='font-sans'>
@@ -94,9 +98,10 @@ const LandingPage = () => {
           </NavLink>
         </div>
 
-        <div className='lg:hidden'>
+        <button onClick={handleOverLay} className='lg:hidden'>
           <Icon icon='majesticons:menu' className='text-3xl text-black' />
-        </div>
+        </button>
+        {}
       </nav>
 
       {/* Hero Section */}
@@ -137,6 +142,69 @@ const LandingPage = () => {
               </button>
             </form>
           </div>
+          {overLay && (
+            <div className='fixed top-0 left-0 w-full h-full bg-black/70 z-40'>
+              <div className='absolute top-0 right-0 w-3/4 h-full bg-white shadow-lg p-6 flex flex-col space-y-6'>
+                {/* Close button */}
+                <button
+                  onClick={handleOverLay}
+                  className='self-end text-3xl text-gray-600'
+                >
+                  ✕
+                </button>
+
+                {/* Links */}
+                <HashLink
+                  smooth
+                  to='#home'
+                  className='text-gray-700 text-lg hover:text-indigo-700'
+                  onClick={handleOverLay}
+                >
+                  Home
+                </HashLink>
+                <HashLink
+                  smooth
+                  to='#about'
+                  className='text-gray-700 text-lg hover:text-indigo-700'
+                  onClick={handleOverLay}
+                >
+                  About
+                </HashLink>
+                <HashLink
+                  smooth
+                  to='#explore'
+                  className='text-gray-700 text-lg hover:text-indigo-700'
+                  onClick={handleOverLay}
+                >
+                  Explore
+                </HashLink>
+                <HashLink
+                  smooth
+                  to='#faqs'
+                  className='text-gray-700 text-lg hover:text-indigo-700'
+                  onClick={handleOverLay}
+                >
+                  FAQ's
+                </HashLink>
+
+                {/* Buttons */}
+                <NavLink
+                  to='/'
+                  className='px-6 py-2 rounded-[15px] border border-[#2C1669] text-[#2C1669] hover:bg-indigo-900 hover:text-white transition-colors'
+                  onClick={handleOverLay}
+                >
+                  Get Started
+                </NavLink>
+                <NavLink
+                  to='/AdminUp'
+                  className='px-6 py-2 rounded-[15px] bg-[#2C1669] text-white hover:bg-indigo-900 transition-colors'
+                  onClick={handleOverLay}
+                >
+                  Agent
+                </NavLink>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
